@@ -3,7 +3,7 @@ import pygame.camera
 
 def main():
 
-    size = (1080, 720)  # Set the screen size
+    size = (2560/2, 1440/2)  # Set the screen size
     pygame.init()  # Initialize the pygame library
     pygame.camera.init()
     screen = pygame.display.set_mode(size)  # Initialize the pygame screen
