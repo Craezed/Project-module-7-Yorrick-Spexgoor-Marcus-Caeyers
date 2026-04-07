@@ -34,6 +34,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # If the screen is closed, quit the program
                 pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                Key_Check(img, rect, screen, pygame.key.name(event.key))
 
         # Capture image from camera
         try:
@@ -45,26 +47,24 @@ def main():
         # Display Image
         img = pygame.transform.flip(img, True, False)
         screen.blit(img, (0, 0))
-        pygame.draw.rect(screen, 999999, rect, 10)
+        pygame.draw.rect(screen, 0, rect, 10)
 
         pygame.display.flip() # Update Screen
 
-        Key_Check(img, rect, screen)
-
         clock.tick(60)  # Limits frame rate to 60 FPS
 
-def Key_Check(img, frame, screen):
-    keys = pygame.key.get_pressed()
+def Key_Check(img, frame, screen, key):
+    possible_keys = ['a', 'k', 't', 'e', 'r']
 
-    if keys[pygame.K_SPACE]:
+    print(key)
+
+    if key in possible_keys:
         cropped_image = img.subsurface(frame)
         screen.blit(cropped_image, (0,0))
 
-        files = os.listdir("DataTest")
+        files = os.listdir(f"{key}")
         i = len(files)
-        pygame.image.save(cropped_image, f"DataTest/test{i}.png")
-
-        pygame.time.wait(1000) # Wait 1 second
+        pygame.image.save(cropped_image, f"{key}/test{i}.png")
 
 
 
