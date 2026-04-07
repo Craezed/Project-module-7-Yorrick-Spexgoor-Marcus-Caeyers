@@ -1,11 +1,15 @@
 import cv2
 import pygame
 import pygame.camera
+import os
+
+size = (2560/2, 1440/2)
+frame_size = (256, 256)
+
+last_time_pressed = 0
 
 def main():
 
-    size = (2560/2, 1440/2)  # Set the screen size
-    frame_size = (256, 256)
     pygame.init()  # Initialize the pygame library
     pygame.camera.init()
     screen = pygame.display.set_mode(size)  # Initialize the pygame screen
@@ -38,13 +42,29 @@ def main():
             print(f"Error capturing image: {e}")
             break
 
+        # Display Image
         img = pygame.transform.flip(img, True, False)
         screen.blit(img, (0, 0))
         pygame.draw.rect(screen, 999999, rect, 10)
 
         pygame.display.flip() # Update Screen
 
+        Key_Check(img, rect, screen)
+
         clock.tick(60)  # Limits frame rate to 60 FPS
+
+def Key_Check(img, frame, screen):
+    keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_SPACE]:
+        cropped_image = img.subsurface(frame)
+        screen.blit(cropped_image, (0,0))
+
+        files = os.listdir("DataTest")
+        i = len(files)
+        pygame.image.save(cropped_image, f"DataTest/test{i}.png")
+
+        pygame.time.wait(1000) # Wait 1 second
 
 
 
