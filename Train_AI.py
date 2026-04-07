@@ -15,7 +15,11 @@ from scikeras.wrappers import KerasClassifier
 from sklearn.metrics import ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 
+IMG_SIZE = [128, 128]
+
 def TrainAI():
+    X = []
+    y = []
 
     X = np.array(X)
     y = np.array(y)
