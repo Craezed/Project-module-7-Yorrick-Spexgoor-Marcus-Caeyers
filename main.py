@@ -1,3 +1,4 @@
+import cv2
 import pygame
 import pygame.camera
 
@@ -37,6 +38,7 @@ def main():
             print(f"Error capturing image: {e}")
             break
 
+        img = pygame.transform.flip(img, True, False)
         screen.blit(img, (0, 0))
         pygame.draw.rect(screen, 999999, rect, 10)
 
