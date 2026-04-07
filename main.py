@@ -4,6 +4,7 @@ import pygame.camera
 def main():
 
     size = (2560/2, 1440/2)  # Set the screen size
+    frame_size = (256, 256)
     pygame.init()  # Initialize the pygame library
     pygame.camera.init()
     screen = pygame.display.set_mode(size)  # Initialize the pygame screen
@@ -18,8 +19,8 @@ def main():
     cam.start()
 
     # Create frame
-    rect = pygame.Rect([0, 0], [200, 200])
-    rect.center = (size[0] // 2, size[1] // 2)
+    rect = pygame.Rect([0, 0], frame_size)
+    rect.center = (size[0] / 2, size[1] / 2)
 
     img = pygame.Surface(size) # To store camera frames
 
