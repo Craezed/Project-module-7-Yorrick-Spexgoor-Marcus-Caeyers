@@ -14,13 +14,23 @@ from sklearn.model_selection import GridSearchCV
 from scikeras.wrappers import KerasClassifier
 from sklearn.metrics import ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
+IMG_SIZE = [256, 256]
 
-IMG_SIZE = [128, 128]
-
-def TrainAI():
+def DataPrep():
     X = []
     y = []
+    for folder in os.listdir("data"):
+        for file in os.listdir(f"data/{folder}"):
+            if file.lower().endswith(".png"):
+                img = Image.open(f"data/{folder}/{file}")
+                img_array = np.array(img)
+                X.append(img_array)
+                y.append(folder)
+    return X, y
 
+
+def TrainAI():
+    X, y = DataPrep()
     X = np.array(X)
     y = np.array(y)
 
@@ -30,13 +40,13 @@ def TrainAI():
 
     def create_model():
         model = tf.keras.models.Sequential([
-            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_SIZE[0], IMG_SIZE[1], 4)),
+            tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(IMG_SIZE[0], IMG_SIZE[1], 3)),
             tf.keras.layers.MaxPooling2D((2, 2)),
             tf.keras.layers.Conv2D(16, (3, 3), activation='relu'),
             tf.keras.layers.MaxPooling2D((2, 2)),
             tf.keras.layers.Flatten(),
             tf.keras.layers.Dense(32, activation='relu'),
-            tf.keras.layers.Dense(2, activation='softmax')
+            tf.keras.layers.Dense(5, activation='softmax')
         ])
         model.compile(optimizer='adam', loss="sparse_categorical_crossentropy", metrics=["accuracy"])
         return model
@@ -46,7 +56,7 @@ def TrainAI():
     keras_model = KerasClassifier(model=create_model())
 
     parameters = {
-        'batch_size': [32],
+        'batch_size': [2],
         'epochs': [12],
         'optimizer': ['adam'],
        'validation_split': [0.1]
@@ -57,7 +67,7 @@ def TrainAI():
 
     print(f"Best Parameters: {grid_result.best_params_}")
     print(f"Best Score: {grid_result.best_score_}")
-
+TrainAI()
     ## Train Model ##
     # model = create_model()
     # model.fit(X_train, y_train, batch_size=32, epochs=12, validation_split=0.1)

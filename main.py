@@ -62,12 +62,11 @@ def Key_Check(img, frame, screen, key):
         cropped_image = img.subsurface(frame)
         screen.blit(cropped_image, (0,0))
 
-        if not os.path.isfile(f"{key}"):
-            os.makedirs(f"{key}")
+        os.makedirs(f"data/{key}", exist_ok=True)
 
-        files = os.listdir(f"{key}")
+        files = os.listdir(f"data/{key}")
         i = len(files)
-        pygame.image.save(cropped_image, f"{key}/test{i}.png")
+        pygame.image.save(cropped_image, f"data/{key}/test{i}.png")
 
 
 
