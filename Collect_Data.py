@@ -51,14 +51,13 @@ def main():
 
         clock.tick(60)  # Limits frame rate to 60 FPS
 
-def Key_Check(img, frame, screen, key):
+def Key_Check(img, frame, key):
     possible_keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
     print(key)
 
     if key in possible_keys:
         cropped_image = img.subsurface(frame)
-        screen.blit(cropped_image, (0,0))
 
         os.makedirs(f"data/{key}", exist_ok=True)
 

@@ -2,17 +2,17 @@ import cv2
 import pygame
 import pygame.camera
 import os
+from keras.models import load_model
+import numpy as np
 
-size = (2560/4, 1440/4)
+size = (2560/2, 1440/2)
 frame_size = (256, 256)
-
-last_time_pressed = 0
+model = load_model("model.keras")
 
 def main():
-
     pygame.init()  # Initialize the pygame library
     pygame.camera.init()
-    screen = pygame.display.set_mode(size)  # Initialize the pygame screen
+    screen = pygame.display.set_mode(size)  # Initialize the camera screen
     clock = pygame.time.Clock()  # Initialize a pygame timer
 
     camlist = pygame.camera.list_cameras()
@@ -35,7 +35,7 @@ def main():
             if event.type == pygame.QUIT:  # If the screen is closed, quit the program
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
-                Key_Check(img, rect, screen, pygame.key.name(event.key))
+                Key_Check(img, rect, screen, event.key)
 
         # Capture image from camera
         try:
@@ -53,20 +53,17 @@ def main():
 
         clock.tick(60)  # Limits frame rate to 60 FPS
 
-def Key_Check(img, frame, screen, key):
-    possible_keys = ['a', 'k', 't', 'e', 'r']
-
+def Key_Check(img, frame, key):
+    label_keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
     print(key)
 
-    if key in possible_keys:
+    if key is pygame.K_SPACE:
         cropped_image = img.subsurface(frame)
-        screen.blit(cropped_image, (0,0))
+        img_array = np.array(cropped_image)
 
-        os.makedirs(f"data/{key}", exist_ok=True)
-
-        files = os.listdir(f"data/{key}")
-        i = len(files)
-        pygame.image.save(cropped_image, f"data/{key}/test{i}.png")
+        prediction = model.predict(img_array)
+        print(prediction)
+        print(label_keys[prediction])
 
 
 

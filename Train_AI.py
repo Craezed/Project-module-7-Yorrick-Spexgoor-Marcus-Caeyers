@@ -1,7 +1,7 @@
 import numpy as np
 from PIL import Image
 import os
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -10,16 +10,7 @@ import tensorflow as tf
 from sklearn.model_selection import GridSearchCV
 from scikeras.wrappers import KerasClassifier
 IMG_SIZE = [256, 256]
-label_key = {'a': 0,
-             'b': 1,
-             'c': 2,
-             'd': 3,
-             'e': 4,
-             'f': 5,
-             'g': 6,
-             'h': 7,
-             'i': 8,
-             'j': 9}
+label_key = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
 def DataPrep():
     X = []
@@ -30,7 +21,7 @@ def DataPrep():
                 img = Image.open(f"data/{folder}/{file}")
                 img_array = np.array(img)
                 X.append(img_array)
-                y.append(label_key[folder])
+                y.append(label_key.index(folder))
 
     return X, y
 
