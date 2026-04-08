@@ -10,7 +10,7 @@ import tensorflow as tf
 from sklearn.model_selection import GridSearchCV
 from scikeras.wrappers import KerasClassifier
 IMG_SIZE = [256, 256]
-label_key = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+label_key = ['a', 'c', 'e', 'i', 'l', 'n', 'o', 'r', 's', 't']
 
 def DataPrep():
     X = []

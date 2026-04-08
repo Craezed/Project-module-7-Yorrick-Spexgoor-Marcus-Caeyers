@@ -52,7 +52,7 @@ def main():
         clock.tick(60)  # Limits frame rate to 60 FPS
 
 def Key_Check(img, frame, key):
-    possible_keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+    possible_keys = ['a', 'c', 'e', 'i', 'l', 'n', 'o', 'r', 's', 't']
 
     print(key)
 
