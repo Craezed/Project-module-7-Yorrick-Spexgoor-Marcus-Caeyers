@@ -33,7 +33,7 @@ def main():
             if event.type == pygame.QUIT:  # If the screen is closed, quit the program
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
-                Key_Check(img, rect, screen, pygame.key.name(event.key))
+                Key_Check(img, rect, pygame.key.name(event.key))
 
         # Capture image from camera
         try:
