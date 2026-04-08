@@ -3,10 +3,8 @@ import pygame
 import pygame.camera
 import os
 
-size = (2560/2, 1440/2)
+size = (2560/4, 1440/4)
 frame_size = (256, 256)
-
-last_time_pressed = 0
 
 def main():
 
@@ -54,7 +52,7 @@ def main():
         clock.tick(60)  # Limits frame rate to 60 FPS
 
 def Key_Check(img, frame, screen, key):
-    possible_keys = ['a', 'k', 't', 'e', 'r']
+    possible_keys = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
 
     print(key)
 
