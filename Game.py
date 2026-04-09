@@ -7,7 +7,7 @@ import numpy as np
 pygame.init()  # Initialize the pygame library
 
 size = (1600/2, 1200/2)
-frame_size = (256, 256)
+frame_size = (320, 320)
 model = load_model("model.keras")
 words = ["stern", "noses", "laces" ,"roast", "stall", "cents", "rolls", "tries", "clean", "lines", "trail"]
 font = pygame.font.Font(None, int(size[1]/5))
@@ -24,7 +24,7 @@ def main():
     img = pygame.Surface(size) # To store camera frames
 
     current_word = pick_new_word() # Set word
-    matching_symbols = [pygame.image.load(f"pictures/e.png"), pygame.image.load(f"pictures/o.png"), pygame.image.load(f"pictures/l.png"), pygame.image.load(f"pictures/a.png"), pygame.image.load(f"pictures/i.png"),]
+    matching_symbols = [None, None, None, None, None]
     pred_letter = None
     pred_symbol = None
 
@@ -35,7 +35,12 @@ def main():
                 pygame.quit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
-                    pred_letter = predict_frame(img, focus_frame)
+                    pred_letter, pred_symbol = predict_frame(img, focus_frame)
+
+                    if pred_letter in current_word:
+                        index = current_word.index(pred_letter)
+                        matching_symbols[index] = pred_symbol
+
                 if event.key == pygame.K_q:
                     pygame.quit()
 
@@ -62,12 +67,15 @@ def predict_frame(img, frame):
     # Get predicted label
     prediction = model.predict(img_array)
     predicted_index = np.argmax(prediction)
+    pred_letter = label_key[predicted_index]
 
-    return label_key[predicted_index]
+    prediction_symbol = pygame.image.load(f"pictures/{pred_letter}.png")
+
+    return pred_letter, prediction_symbol
 
 def display(screen, img, word, pred_letter, pred_symbol, matching_symbols):
     # Display Camera Image
-    img = pygame.transform.flip(img, True, False)
+    # img = pygame.transform.flip(img, True, False)
     screen.blit(img, (0, 0))
 
     # Display focus frame
@@ -102,7 +110,8 @@ def display(screen, img, word, pred_letter, pred_symbol, matching_symbols):
         screen.blit(pred_letter_text, pred_letter_rect)
 
     if pred_symbol is not None:
-        pass
+        img_rect = pred_symbol.get_rect(center=(size[0] / 2, size[1] / 4 * 3))  # Get center of letter
+        screen.blit(pred_symbol, img_rect)
 
 
     pygame.display.flip()  # Update Screen

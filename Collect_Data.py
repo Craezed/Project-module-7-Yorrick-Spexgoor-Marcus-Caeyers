@@ -1,4 +1,3 @@
-import cv2
 import pygame
 import pygame.camera
 import os
@@ -43,7 +42,7 @@ def main():
             break
 
         # Display Image
-        img = pygame.transform.flip(img, True, False)
+        # img = pygame.transform.flip(img, True, False)
         screen.blit(img, (0, 0))
         pygame.draw.rect(screen, 0, rect, 10)
 
