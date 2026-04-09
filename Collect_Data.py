@@ -3,8 +3,8 @@ import pygame
 import pygame.camera
 import os
 
-size = (2560/4, 1440/4)
-frame_size = (256, 256)
+size = (1600/2, 1200/2)
+frame_size = (320, 320)
 
 def main():
 
@@ -18,7 +18,7 @@ def main():
         print("No camera found")
         pygame.quit()
 
-    cam = pygame.camera.Camera(camlist[0], size)
+    cam = pygame.camera.Camera(camlist[1], size)
     cam.start()
 
     # Create frame

@@ -6,7 +6,7 @@ import numpy as np
 
 pygame.init()  # Initialize the pygame library
 
-size = (2560/2, 1440/2)
+size = (1600/2, 1200/2)
 frame_size = (256, 256)
 model = load_model("model.keras")
 words = ["stern", "noses", "laces" ,"roast", "stall", "cents", "rolls", "tries", "clean", "lines", "trail"]
@@ -120,7 +120,7 @@ def camera_setup():
         print("No camera found")
         pygame.quit()
 
-    cam = pygame.camera.Camera(camlist[0], size)
+    cam = pygame.camera.Camera(camlist[1], size)
     cam.start()
 
     return cam
