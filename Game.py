@@ -27,6 +27,7 @@ def main():
     matching_symbols = [None, None, None, None, None]
     pred_letter = None
     pred_symbol = None
+    score = 0
 
     while True:
         # Check for events
@@ -37,12 +38,21 @@ def main():
                 if event.key == pygame.K_SPACE:
                     pred_letter, pred_symbol = predict_frame(img, focus_frame)
 
-                    if pred_letter in current_word:
-                        index = current_word.index(pred_letter)
-                        matching_symbols[index] = pred_symbol
+                    # Check if word contains guessed letter
+                    for i in range(len(current_word)):
+                        if pred_letter == current_word[i]:
+                            matching_symbols[i] = pred_symbol
+                            score += 1
 
                 if event.key == pygame.K_q:
                     pygame.quit()
+
+        if score >= 5:
+            current_word = pick_new_word()  # Set word
+            matching_symbols = [None, None, None, None, None]
+            pred_letter = None
+            pred_symbol = None
+            score = 0
 
         # Capture image from camera
         try:
@@ -104,7 +114,7 @@ def display(screen, img, word, pred_letter, pred_symbol, matching_symbols):
 
     # Display current prediction (letter + symbol)
     if pred_letter is not None:
-        pred_letter_text = font.render(pred_letter, True, 0)
+        pred_letter_text = font.render(pred_letter.capitalize(), True, 0)
         pred_letter_rect = pred_letter_text.get_rect(center=(size[0] / 2, size[1] / 4)) # Get center of letter
         pygame.draw.rect(screen, (255, 255, 255), pred_letter_rect)
         screen.blit(pred_letter_text, pred_letter_rect)
