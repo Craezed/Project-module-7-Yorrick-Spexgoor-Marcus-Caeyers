@@ -32,12 +32,13 @@ def create_model():
         tf.keras.layers.Conv2D(32, (3, 3), activation='relu'),
         tf.keras.layers.Conv2D(16, (3, 3), activation='relu'),
         tf.keras.layers.MaxPooling2D((4, 4)),
-        tf.keras.layers.Conv2D(8, (3, 3), activation='relu'),
+        tf.keras.layers.Conv2D(16, (3, 3), activation='relu'),
+        tf.keras.layers.Conv2D(10, (3, 3), activation='relu'),
+        tf.keras.layers.Conv2D(5, (3, 3), activation='relu'),
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(800, activation='relu'),
         tf.keras.layers.Dense(400, activation='relu'),
         tf.keras.layers.Dense(100, activation='relu'),
-        tf.keras.layers.Dense(25, activation='relu'),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
     model.compile(optimizer='adam', loss="sparse_categorical_crossentropy", metrics=["accuracy"])

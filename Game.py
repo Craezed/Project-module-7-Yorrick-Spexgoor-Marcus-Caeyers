@@ -27,7 +27,6 @@ def main():
     matching_symbols = [None, None, None, None, None]
     pred_letter = None
     pred_symbol = None
-    score = 0
 
     while True:
         # Check for events
@@ -42,17 +41,15 @@ def main():
                     for i in range(len(current_word)):
                         if pred_letter == current_word[i]:
                             matching_symbols[i] = pred_symbol
-                            score += 1
 
                 if event.key == pygame.K_q:
                     pygame.quit()
 
-        if score >= 5:
+        if all(elem is not None for elem in matching_symbols):
             current_word = pick_new_word()  # Set word
             matching_symbols = [None, None, None, None, None]
             pred_letter = None
             pred_symbol = None
-            score = 0
 
         # Capture image from camera
         try:
@@ -80,6 +77,8 @@ def predict_frame(img, frame):
     pred_letter = label_key[predicted_index]
 
     prediction_symbol = pygame.image.load(f"pictures/{pred_letter}.png")
+
+    print(prediction)
 
     return pred_letter, prediction_symbol
 
