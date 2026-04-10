@@ -67,12 +67,20 @@ def predict_frame(img, frame):
     cropped_image = img.subsurface(frame)
 
     # Extract pixel data from pygame surface
-    img_array = pygame.surfarray.pixels3d(cropped_image) # Array: (width, height, 3)
-    img_array = np.transpose(img_array, (1, 0, 2)) # Match training data
-    img_array = np.expand_dims(img_array, axis=0) # Add batch dimension
+    #img_array = np.array(cropped_image)
+    #img_array = pygame.surfarray.pixels3d(cropped_image) # Array: (width, height, 3)
+    #img_array = np.transpose(img_array, (1, 0, 2)) # Match training data
+    #img_array = np.expand_dims(img_array, axis=0) # Add batch dimension
+    # Get surface and convert to NumPy
+    cropped_surface = img.subsurface(frame)
+    img_array = pygame.surfarray.array3d(cropped_surface)
+
+    # Match training data
+    img_array = img_array.transpose([1, 0, 2])
+    input_picture = np.expand_dims(img_array, axis=0) / 255.0
 
     # Get predicted label
-    prediction = model.predict(img_array)
+    prediction = model.predict(input_picture)
     predicted_index = np.argmax(prediction)
     pred_letter = label_key[predicted_index]
 
