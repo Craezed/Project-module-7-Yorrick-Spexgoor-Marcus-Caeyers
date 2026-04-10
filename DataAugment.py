@@ -1,4 +1,6 @@
 import os
+
+from keras.src.legacy.preprocessing.image import flip_axis
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 import numpy as np
 from PIL import Image
@@ -9,7 +11,8 @@ datagen = ImageDataGenerator(
     width_shift_range=0.1,  # Horizontal shift
     height_shift_range=0.1,  # Vertical shift
     zoom_range=0.2,  # Zoom in/out
-    brightness_range=[0.5, 1.5]
+    brightness_range=[0.5, 1.5],
+    horizontal_flip=True
 )
 
 # Make 5 Augmented versions of each image

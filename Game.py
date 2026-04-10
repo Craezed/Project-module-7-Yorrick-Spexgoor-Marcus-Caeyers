@@ -8,7 +8,7 @@ pygame.init()  # Initialize the pygame library
 
 size = (1600/2, 1200/2)
 frame_size = (320, 320)
-model = load_model("model.keras")
+model = load_model("model2.keras")
 words = ["stern", "noses", "laces" ,"roast", "stall", "cents", "rolls", "tries", "clean", "lines", "trail"]
 font = pygame.font.Font(None, int(size[1]/5))
 

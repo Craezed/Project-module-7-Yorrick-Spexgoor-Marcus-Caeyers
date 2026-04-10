@@ -21,6 +21,7 @@ def DataPrep():
         for file in os.listdir(f"data/{folder}"):
             if file.lower().endswith(".png"):
                 img = cv2.imread(f"data/{folder}/{file}")
+                img = cv2.Canny(img, 100, 200)
                 img_array = img.astype(np.float32) / 255.0
                 X.append(img_array)
                 y.append(label_key.index(folder))
@@ -29,7 +30,7 @@ def DataPrep():
 
 def create_model():
     model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=(IMG_SIZE[0], IMG_SIZE[1], 3)),
+        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=(IMG_SIZE[0], IMG_SIZE[1], 1)),
         tf.keras.layers.MaxPooling2D(2, 2),
 
         tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
