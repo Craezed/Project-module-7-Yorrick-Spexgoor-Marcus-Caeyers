@@ -8,6 +8,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
+from tensorflow.keras import callbacks
 from sklearn.model_selection import GridSearchCV
 from scikeras.wrappers import KerasClassifier
 import cv2
@@ -32,16 +33,25 @@ def create_model():
         tf.keras.layers.Conv2D(32, (3, 3), activation='relu', padding='same', input_shape=(IMG_SIZE[0], IMG_SIZE[1], 3)),
         tf.keras.layers.MaxPooling2D(2, 2),
 
-        tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
+        tf.keras.layers.Conv2D(48, (3, 3), activation='relu', padding='same'),
+        tf.keras.layers.MaxPooling2D(2, 2),
+
+        tf.keras.layers.Conv2D(56, (3, 3), activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
 
         tf.keras.layers.Conv2D(64, (3, 3), activation='relu', padding='same'),
         tf.keras.layers.MaxPooling2D(2, 2),
+
+        tf.keras.layers.Conv2D(72, (3, 3), activation='relu', padding='same'),
+        tf.keras.layers.MaxPooling2D(2, 2),
+
+        tf.keras.layers.Conv2D(80, (3, 3), activation='relu', padding='same'),
+        tf.keras.layers.MaxPooling2D(2, 2),
+
+        tf.keras.layers.Conv2D(96, (3, 3), activation='relu', padding='same'),
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(400, activation='relu'),
-        tf.keras.layers.Dense(200, activation='relu'),
-        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dense(100, activation='relu'),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
     model.compile(optimizer='adam', loss="sparse_categorical_crossentropy", metrics=["accuracy"])
@@ -60,7 +70,7 @@ def gridsearch_train():
 
     parameters = {
         'batch_size': [24, 32, 48],
-        'epochs': [20, 25],
+        'epochs': [20, 25, 30],
         'optimizer': ['adam', 'sgd'],
         'validation_split': [0.1, 0.2]
     }
@@ -83,7 +93,8 @@ def regular_train():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     model = create_model()
-    history = model.fit(X_train, y_train, batch_size=32, epochs=20, validation_split=0.1)
+
+    history = model.fit(X_train, y_train, batch_size=32, epochs=25, validation_split=0.1)
     test_loss, test_acc = model.evaluate(X_test, y_test)
     print(test_loss)
     print(test_acc)
@@ -104,7 +115,7 @@ def regular_train():
     disp.plot()
     plt.show()
 
-    model.save("model2.keras")
+    model.save("new_model.keras")
 
 regular_train()
 

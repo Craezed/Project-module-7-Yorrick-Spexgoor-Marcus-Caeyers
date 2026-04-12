@@ -3,12 +3,13 @@ import pygame
 import pygame.camera
 from keras.models import load_model
 import numpy as np
+import matplotlib.pyplot as plt
 
 pygame.init()  # Initialize the pygame library
 
 size = (1600/2, 1200/2)
 frame_size = (320, 320)
-model = load_model("model2.keras")
+model = load_model("models/model65.keras")
 words = ["stern", "noses", "laces" ,"roast", "stall", "cents", "rolls", "tries", "clean", "lines", "trail"]
 font = pygame.font.Font(None, int(size[1]/5))
 
@@ -45,12 +46,6 @@ def main():
                 if event.key == pygame.K_q:
                     pygame.quit()
 
-        if all(elem is not None for elem in matching_symbols):
-            current_word = pick_new_word()  # Set word
-            matching_symbols = [None, None, None, None, None]
-            pred_letter = None
-            pred_symbol = None
-
         # Capture image from camera
         try:
             cam.get_image(img)
@@ -59,18 +54,19 @@ def main():
 
         display(screen, img, current_word, pred_letter, pred_symbol, matching_symbols)
 
+        # Check for win
+        if all(elem is not None for elem in matching_symbols):
+            pygame.time.delay(3000)
+            current_word = pick_new_word()  # Set word
+            matching_symbols = [None, None, None, None, None]
+            pred_letter = None
+            pred_symbol = None
+
         clock.tick(60)  # Limits frame rate to 60 FPS
 
 def predict_frame(img, frame):
     label_key = ['a', 'c', 'e', 'i', 'l', 'n', 'o', 'r', 's', 't']
 
-    cropped_image = img.subsurface(frame)
-
-    # Extract pixel data from pygame surface
-    #img_array = np.array(cropped_image)
-    #img_array = pygame.surfarray.pixels3d(cropped_image) # Array: (width, height, 3)
-    #img_array = np.transpose(img_array, (1, 0, 2)) # Match training data
-    #img_array = np.expand_dims(img_array, axis=0) # Add batch dimension
     # Get surface and convert to NumPy
     cropped_surface = img.subsurface(frame)
     img_array = pygame.surfarray.array3d(cropped_surface)
@@ -146,7 +142,7 @@ def camera_setup():
         print("No camera found")
         pygame.quit()
 
-    cam = pygame.camera.Camera(camlist[1], size)
+    cam = pygame.camera.Camera(camlist[0], size)
     cam.start()
 
     return cam
