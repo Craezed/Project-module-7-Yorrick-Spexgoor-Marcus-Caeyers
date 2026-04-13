@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 import pygame
 
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, f1_score
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
@@ -46,12 +46,14 @@ def create_model():
         tf.keras.layers.MaxPooling2D(2, 2),
 
         tf.keras.layers.Conv2D(80, (3, 3), activation='relu', padding='same'),
+        tf.keras.layers.Dropout(0.2),
         tf.keras.layers.MaxPooling2D(2, 2),
 
         tf.keras.layers.Conv2D(96, (3, 3), activation='relu', padding='same'),
         tf.keras.layers.Flatten(),
 
         tf.keras.layers.Dense(100, activation='relu'),
+        tf.keras.layers.Dropout(0.4),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
     model.compile(optimizer='adam', loss="sparse_categorical_crossentropy", metrics=["accuracy"])
@@ -92,10 +94,14 @@ def regular_train():
 
     model = create_model()
 
-    history = model.fit(X_train, y_train, batch_size=32, epochs=25, validation_split=0.1)
+    history = model.fit(X_train, y_train, batch_size=32, epochs=40, validation_split=0.1)
+
+    # Evaluation of model
     test_loss, test_acc = model.evaluate(X_test, y_test)
-    print(test_loss)
-    print(test_acc)
+    test_f1_score = f1_score(y_test, np.argmax(model.predict(X_test), 1), average="weighted")
+    print(f"loss: {test_loss}")
+    print(f"accuracy: {test_acc}")
+    print(f"f1-score: {test_f1_score}")
 
     # Plot loss function
     plt.figure(figsize=(5, 5))
@@ -108,7 +114,7 @@ def regular_train():
     plt.show()
 
     # Plot confusion matrix
-    matrix = confusion_matrix(np.argmax(model.predict(X_test), 1), y_test)
+    matrix = confusion_matrix(y_test, np.argmax(model.predict(X_test), 1))
     disp = ConfusionMatrixDisplay(matrix)
     disp.plot()
     plt.show()
