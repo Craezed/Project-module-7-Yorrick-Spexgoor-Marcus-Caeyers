@@ -64,7 +64,6 @@ def gridsearch_train():
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    ## GridSearch ##
     # Create Keras model for GridSearch
     keras_model = KerasClassifier(model=create_model())
 
@@ -85,7 +84,6 @@ def gridsearch_train():
 
 
 def regular_train():
-    ## Train Model ##
     X, y = DataPrep()
     X = np.array(X)
     y = np.array(y)

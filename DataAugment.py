@@ -7,12 +7,12 @@ from PIL import Image
 
 # Configure the ImageDataGenerator for augmentation
 datagen = ImageDataGenerator(
-    rotation_range=30,  # Random rotation between 0-30 degrees
+    rotation_range=30,  # Random rotation
     width_shift_range=0.1,  # Horizontal shift
     height_shift_range=0.1,  # Vertical shift
     zoom_range=0.2,  # Zoom in/out
-    brightness_range=[0.5, 1.5],
-    horizontal_flip=True
+    brightness_range=[0.5, 1.5], # Change brightness
+    horizontal_flip=True # Flip for left/right hand coverage
 )
 
 # Make 5 Augmented versions of each image

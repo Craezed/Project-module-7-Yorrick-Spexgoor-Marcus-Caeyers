@@ -51,7 +51,7 @@ def create_model():
         tf.keras.layers.Conv2D(96, (3, 3), activation='relu', padding='same'),
         tf.keras.layers.Flatten(),
 
-        tf.keras.layers.Dense(100, activation='relu'),
+        tf.keras.layers.Dense(25, activation='relu'),
         tf.keras.layers.Dense(10, activation='softmax')
     ])
     model.compile(optimizer='adam', loss="sparse_categorical_crossentropy", metrics=["accuracy"])
