@@ -70,10 +70,10 @@ def gridsearch_train():
     keras_model = KerasClassifier(model=create_model())
 
     parameters = {
-        'batch_size': [24, 32, 48],
-        'epochs': [20, 25, 30],
+        'batch_size': [32, 48],
+        'epochs': [20, 25, 30, 35, 40, 45],
         'optimizer': ['adam', 'sgd'],
-        'validation_split': [0.1, 0.2]
+        'validation_split': [0.1]
     }
 
     grid = GridSearchCV(estimator=keras_model, param_grid=parameters, cv=3, n_jobs=1, refit=True)

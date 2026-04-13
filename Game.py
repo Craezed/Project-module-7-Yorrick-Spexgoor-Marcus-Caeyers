@@ -9,7 +9,7 @@ pygame.init()  # Initialize the pygame library
 
 size = (1600/2, 1200/2)
 frame_size = (320, 320)
-model = load_model("models/model65.keras")
+model = load_model("models/modelDropout73.keras")
 words = ["stern", "noses", "laces" ,"roast", "stall", "cents", "rolls", "tries", "clean", "lines", "trail"]
 font = pygame.font.Font(None, int(size[1]/5))
 
@@ -96,6 +96,8 @@ def display(screen, img, word, pred_letter, pred_symbol, matching_symbols):
 
     # Display side bars
     pygame.draw.rect(screen, (250, 237, 205), ((0, 0), (size[0]/5, size[1])))
+    pygame.draw.rect(screen, (250, 237, 205), ((size[0]/2 - 100, 0),(200, 150)))
+    pygame.draw.rect(screen, (250, 237, 205), ((size[0]/2 - 100, size[1] - 150),(200, 150)))
     pygame.draw.rect(screen, (250, 237, 205), ((size[0]/5*4, 0), (size[0]/5, size[1])))
 
     # Display word to spell
@@ -118,12 +120,11 @@ def display(screen, img, word, pred_letter, pred_symbol, matching_symbols):
     # Display current prediction (letter + symbol)
     if pred_letter is not None:
         pred_letter_text = font.render(pred_letter.capitalize(), True, 0)
-        pred_letter_rect = pred_letter_text.get_rect(center=(size[0] / 2, size[1] / 4)) # Get center of letter
-        pygame.draw.rect(screen, (255, 255, 255), pred_letter_rect)
+        pred_letter_rect = pred_letter_text.get_rect(center=(size[0] / 2, size[1] / 9)) # Get center of letter
         screen.blit(pred_letter_text, pred_letter_rect)
 
     if pred_symbol is not None:
-        img_rect = pred_symbol.get_rect(center=(size[0] / 2, size[1] / 4 * 3))  # Get center of letter
+        img_rect = pred_symbol.get_rect(center=(size[0] / 2, size[1] / 10 * 9))  # Get center of letter
         screen.blit(pred_symbol, img_rect)
 
 
