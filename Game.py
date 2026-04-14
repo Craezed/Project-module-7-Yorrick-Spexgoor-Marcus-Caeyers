@@ -10,7 +10,7 @@ pygame.init()  # Initialize the pygame library
 size = (1600/2, 1200/2)
 frame_size = (320, 320)
 model = load_model("models/modelDropout73.keras")
-words = ["stern", "noses", "laces" ,"roast", "stall", "cents", "rolls", "tries", "clean", "lines", "trail"]
+words = ["stoat", "noses", "laces" ,"stone", "stall", "cents", "tries"]
 font = pygame.font.Font(None, int(size[1]/5))
 
 # Create frame
@@ -43,6 +43,12 @@ def main():
                         if pred_letter == current_word[i]:
                             matching_symbols[i] = pred_symbol
 
+                # Press W to skip to next word
+                if event.key == pygame.K_w:
+                    # Fill up matching_symbols
+                    matching_symbols = [pygame.image.load(f"pictures/a.png"), pygame.image.load(f"pictures/a.png"), pygame.image.load(f"pictures/a.png"), pygame.image.load(f"pictures/a.png"), pygame.image.load(f"pictures/a.png")]
+
+                # Press Q to quit
                 if event.key == pygame.K_q:
                     pygame.quit()
 
@@ -78,9 +84,12 @@ def predict_frame(img, frame):
     # Get predicted label
     prediction = model.predict(input_picture)
     predicted_index = np.argmax(prediction)
-    pred_letter = label_key[predicted_index]
 
-    prediction_symbol = pygame.image.load(f"pictures/{pred_letter}.png")
+    pred_letter = 'X'
+    prediction_symbol = None
+    if prediction[0][predicted_index] > 0.3:
+        pred_letter = label_key[predicted_index]
+        prediction_symbol = pygame.image.load(f"pictures/{pred_letter}.png")
 
     print(prediction)
 
@@ -143,7 +152,7 @@ def camera_setup():
         print("No camera found")
         pygame.quit()
 
-    cam = pygame.camera.Camera(camlist[0], size)
+    cam = pygame.camera.Camera(camlist[1], size)
     cam.start()
 
     return cam
