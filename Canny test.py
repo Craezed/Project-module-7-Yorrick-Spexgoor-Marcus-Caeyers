@@ -85,7 +85,6 @@ def gridsearch_train():
 
 
 def regular_train():
-    ## Train Model ##
     X, y = DataPrep()
     X = np.array(X)
     y = np.array(y)
