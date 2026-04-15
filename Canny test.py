@@ -93,7 +93,7 @@ def regular_train():
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
     model = create_model()
-    history = model.fit(X_train, y_train, batch_size=32, epochs=25, validation_split=0.1)
+    history = model.fit(X_train, y_train, batch_size=32, epochs=30, validation_split=0.1)
     test_loss, test_acc = model.evaluate(X_test, y_test)
     print(test_loss)
     print(test_acc)
