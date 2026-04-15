@@ -71,7 +71,7 @@ def gridsearch_train():
 
     parameters = {
         'batch_size': [32, 48],
-        'epochs': [20, 25, 30, 35, 40, 45],
+        'epochs': [20, 25, 30, 35],
         'optimizer': ['adam', 'sgd'],
         'validation_split': [0.1]
     }
@@ -94,11 +94,11 @@ def regular_train():
 
     model = create_model()
 
-    history = model.fit(X_train, y_train, batch_size=32, epochs=40, validation_split=0.1)
+    history = model.fit(X_train, y_train, batch_size=32, epochs=30, validation_split=0.1)
 
     # Evaluation of model
     test_loss, test_acc = model.evaluate(X_test, y_test)
-    test_f1_score = f1_score(y_test, np.argmax(model.predict(X_test), 1), average="weighted")
+    test_f1_score = f1_score(y_test, np.argmax(model.predict(X_test), 1), average="macro")
     print(f"loss: {test_loss}")
     print(f"accuracy: {test_acc}")
     print(f"f1-score: {test_f1_score}")

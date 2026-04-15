@@ -103,11 +103,9 @@ def display(screen, img, word, pred_letter, pred_symbol, matching_symbols):
     # Display focus frame
     pygame.draw.rect(screen, 0, focus_frame, 10)
 
-    # Display side bars
-    pygame.draw.rect(screen, (250, 237, 205), ((0, 0), (size[0]/5, size[1])))
-    pygame.draw.rect(screen, (250, 237, 205), ((size[0]/2 - 100, 0),(200, 150)))
-    pygame.draw.rect(screen, (250, 237, 205), ((size[0]/2 - 100, size[1] - 150),(200, 150)))
-    pygame.draw.rect(screen, (250, 237, 205), ((size[0]/5*4, 0), (size[0]/5, size[1])))
+    # Display Game Overlay
+    game_overlay = pygame.image.load('pictures/Game_Overlay.png').convert_alpha()
+    screen.blit(game_overlay, (0, 0))
 
     # Display word to spell
     if word is not None:
